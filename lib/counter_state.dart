@@ -1,17 +1,29 @@
+import 'package:redux_counter/counter_modal.dart';
+
 /// One simple action: Increment
 enum CounterActions { Increment, Decrement, Reset }
 
 /// The reducer, which takes the previous count and increments it in response
 /// to an Increment action.
-int counterReducer(int state, dynamic action) {
+CounterModal counterReducer(CounterModal state, dynamic action) {
   if (action == CounterActions.Reset) {
-    return state = 0;
+    int count = 0;
+    int actions = state.actions + 1;
+    CounterActions lastAction = CounterActions.Reset;
+
+    return CounterModal(count: count, actions: actions, lastAction: lastAction);
   } else if (action == CounterActions.Increment) {
-    return state = state + 1;
-  } else if (state <= 0) {
-    return state;
+    int count = state.count + 1;
+    int actions = state.actions + 1;
+    CounterActions lastAction = CounterActions.Increment;
+
+    return CounterModal(count: count, actions: actions, lastAction: lastAction);
   } else if (action == CounterActions.Decrement) {
-    return state = state - 1;
+    int count = state.count - 1;
+    int actions = state.actions + 1;
+    CounterActions lastAction = CounterActions.Decrement;
+
+    return CounterModal(count: count, actions: actions, lastAction: lastAction);
   } else {
     return state;
   }

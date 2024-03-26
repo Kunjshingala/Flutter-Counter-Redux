@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux_counter/test_screen.dart';
 
+import 'counter_modal.dart';
 import 'counter_state.dart';
 
 class CounterScreen extends StatelessWidget {
@@ -39,11 +40,44 @@ class CounterScreen extends StatelessWidget {
             /// run through the reducer. After the reducer updates the state,
             /// the Widget will be automatically rebuilt with the latest
             /// count. No need to manually manage subscriptions or Streams!
-            StoreConnector<int, String>(
-              converter: (store) => store.state.toString(),
+            StoreConnector<CounterModal, String>(
+              converter: (store) => store.state.count.toString(),
               builder: (context, count) {
                 return Text(
                   'Count : $count',
+                  style: Theme.of(context).textTheme.titleSmall,
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            StoreConnector<CounterModal, String>(
+              converter: (store) => store.state.actions.toString(),
+              builder: (context, actions) {
+                return Text(
+                  'Action no: $actions',
+                  style: Theme.of(context).textTheme.titleSmall,
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            StoreConnector<CounterModal, String?>(
+              converter: (store) {
+                CounterActions? lastAction = store.state.lastAction;
+                if (CounterActions.Reset == lastAction) {
+                  return 'Reset';
+                }
+                if (CounterActions.Increment == lastAction) {
+                  return 'Increment';
+                }
+                if (CounterActions.Decrement == lastAction) {
+                  return 'Decrement';
+                } else {
+                  return null;
+                }
+              },
+              builder: (BuildContext context, lastAction) {
+                return Text(
+                  'Last Action was: $lastAction',
                   style: Theme.of(context).textTheme.titleSmall,
                 );
               },
@@ -56,7 +90,7 @@ class CounterScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                StoreConnector<int, VoidCallback>(
+                StoreConnector<CounterModal, VoidCallback>(
                   converter: (store) {
                     /// Return a `VoidCallback`, which is a fancy name for a function
                     /// with no parameters and no return value.
@@ -72,7 +106,7 @@ class CounterScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 20),
-                StoreConnector<int, VoidCallback>(
+                StoreConnector<CounterModal, VoidCallback>(
                   converter: (store) {
                     /// Return a `VoidCallback`, which is a fancy name for a function
                     /// with no parameters and no return value.
@@ -90,7 +124,7 @@ class CounterScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            StoreConnector<int, VoidCallback>(
+            StoreConnector<CounterModal, VoidCallback>(
               converter: (store) {
                 /// Return a `VoidCallback`, which is a fancy name for a function
                 /// with no parameters and no return value.
