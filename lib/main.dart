@@ -6,32 +6,30 @@ import 'counter_screen.dart';
 import 'counter_state.dart';
 
 void main() {
-  // Create your store as a final variable in the main function or inside a
-  // State object. This works better with Hot Reload than creating it directly
-  // in the `build` function.
+  /// Create your store as a final variable in the main function or inside a
+  /// State object. This works better with Hot Reload than creating it directly
+  /// in the `build` function.
   final store = Store<int>(counterReducer, initialState: 0);
 
   runApp(
-    FlutterReduxApp(title: 'Flutter Redux Demo', store: store),
+    FlutterReduxApp(store: store),
   );
 }
 
 class FlutterReduxApp extends StatelessWidget {
   final Store<int> store;
-  final String title;
 
-  const FlutterReduxApp({super.key, required this.store, required this.title});
+  const FlutterReduxApp({super.key, required this.store});
 
   @override
   Widget build(BuildContext context) {
     return StoreProvider<int>(
-      // Pass the store to the StoreProvider. Any ancestor `StoreConnector`
-      // Widgets will find and use this value as the `Store`.
+      /// Pass the store to the StoreProvider. Any ancestor `StoreConnector`
+      /// Widgets will find and use this value as the `Store`.
       store: store,
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: title,
-        home: const CounterScreen(),
+        home: CounterScreen(),
       ),
     );
   }
