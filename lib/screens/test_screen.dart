@@ -16,7 +16,10 @@ class TestScreen extends StatelessWidget {
             StoreConnector<AppState, String>(
               converter: (store) => store.state.counterState.counterModal.count.toString(),
               builder: (context, count) {
-                return Text(count);
+                return Text(
+                  'Count : $count',
+                  style: Theme.of(context).textTheme.titleSmall,
+                );
               },
             ),
             const SizedBox(height: 20),

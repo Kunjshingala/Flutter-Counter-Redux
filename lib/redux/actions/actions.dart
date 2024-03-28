@@ -9,3 +9,7 @@ class DecrementAction {
 class ResetAction {
   ResetAction();
 }
+
+class ClearAction {
+  ClearAction();
+}

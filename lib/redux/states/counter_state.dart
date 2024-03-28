@@ -1,7 +1,5 @@
 import 'package:redux_counter/redux/modals/counter_modal.dart';
 
-import '../reducers/app_state_reducer.dart';
-
 class CounterState {
   final CounterModal counterModal;
 
@@ -12,7 +10,7 @@ class CounterState {
       counterModal: CounterModal(
         count: 0,
         actions: 0,
-        lastAction: CounterActions.Reset.name,
+        lastAction: 'Not an Action',
       ),
     );
   }

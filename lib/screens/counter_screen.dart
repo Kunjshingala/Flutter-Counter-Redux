@@ -15,6 +15,17 @@ class CounterScreen extends StatelessWidget {
         title: const Text('Counter'),
         centerTitle: true,
         actions: [
+          StoreConnector<AppState, VoidCallback>(
+            converter: (store) {
+              return () => store.dispatch(ClearAction());
+            },
+            builder: (BuildContext context, callback) {
+              return IconButton(
+                onPressed: callback,
+                icon: const Icon(Icons.lock_reset),
+              );
+            },
+          ),
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TestScreen()));
@@ -62,7 +73,7 @@ class CounterScreen extends StatelessWidget {
             const SizedBox(height: 20),
             StoreConnector<AppState, String>(
               converter: (store) {
-                return store.state.counterState.counterModal.lastAction;
+                return store.state.counterState.counterModal.lastAction!;
               },
               builder: (BuildContext context, lastAction) {
                 return Text(
