@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux_counter/test_screen.dart';
+import 'package:redux_counter/redux/store/app_state.dart';
+import 'package:redux_counter/screens/test_screen.dart';
 
-import 'counter_modal.dart';
-import 'counter_state.dart';
+import '../redux/actions/actions.dart';
 
 class CounterScreen extends StatelessWidget {
   const CounterScreen({super.key});
@@ -40,8 +40,8 @@ class CounterScreen extends StatelessWidget {
             /// run through the reducer. After the reducer updates the state,
             /// the Widget will be automatically rebuilt with the latest
             /// count. No need to manually manage subscriptions or Streams!
-            StoreConnector<CounterModal, String>(
-              converter: (store) => store.state.count.toString(),
+            StoreConnector<AppState, String>(
+              converter: (store) => store.state.counterState.counterModal.count.toString(),
               builder: (context, count) {
                 return Text(
                   'Count : $count',
@@ -50,8 +50,8 @@ class CounterScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 20),
-            StoreConnector<CounterModal, String>(
-              converter: (store) => store.state.actions.toString(),
+            StoreConnector<AppState, String>(
+              converter: (store) => store.state.counterState.counterModal.actions.toString(),
               builder: (context, actions) {
                 return Text(
                   'Action no: $actions',
@@ -60,20 +60,9 @@ class CounterScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 20),
-            StoreConnector<CounterModal, String?>(
+            StoreConnector<AppState, String>(
               converter: (store) {
-                CounterActions? lastAction = store.state.lastAction;
-                if (CounterActions.Reset == lastAction) {
-                  return 'Reset';
-                }
-                if (CounterActions.Increment == lastAction) {
-                  return 'Increment';
-                }
-                if (CounterActions.Decrement == lastAction) {
-                  return 'Decrement';
-                } else {
-                  return null;
-                }
+                return store.state.counterState.counterModal.lastAction.name;
               },
               builder: (BuildContext context, lastAction) {
                 return Text(
@@ -90,12 +79,13 @@ class CounterScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                StoreConnector<CounterModal, VoidCallback>(
+                StoreConnector<AppState, VoidCallback>(
                   converter: (store) {
                     /// Return a `VoidCallback`, which is a fancy name for a function
                     /// with no parameters and no return value.
                     /// It only dispatches an Increment action.
-                    return () => store.dispatch(CounterActions.Increment);
+
+                    return () => store.dispatch(IncrementAction());
                   },
                   builder: (context, callback) {
                     return ElevatedButton(
@@ -106,12 +96,13 @@ class CounterScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(width: 20),
-                StoreConnector<CounterModal, VoidCallback>(
+                StoreConnector<AppState, VoidCallback>(
                   converter: (store) {
                     /// Return a `VoidCallback`, which is a fancy name for a function
                     /// with no parameters and no return value.
-                    /// It only dispatches an Increment action.
-                    return () => store.dispatch(CounterActions.Decrement);
+                    /// It only dispatches an Decrement action.
+
+                    return () => store.dispatch(DecrementAction());
                   },
                   builder: (context, callback) {
                     return ElevatedButton(
@@ -124,12 +115,13 @@ class CounterScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            StoreConnector<CounterModal, VoidCallback>(
+            StoreConnector<AppState, VoidCallback>(
               converter: (store) {
                 /// Return a `VoidCallback`, which is a fancy name for a function
                 /// with no parameters and no return value.
-                /// It only dispatches an Increment action.
-                return () => store.dispatch(CounterActions.Reset);
+                /// It only dispatches an Reset action.
+
+                return () => store.dispatch(ResetAction());
               },
               builder: (context, callback) {
                 return ElevatedButton(
