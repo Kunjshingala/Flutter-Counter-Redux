@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -6,15 +5,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';
 
-import 'app_state.dart';
-import 'app_state_reducer.dart';
+import '../reducers/app_state_reducer.dart';
+import '../states/app_state.dart';
 
 late Store<AppState> store;
 
 Future<Store<AppState>> createStore() async {
   dynamic initialState;
-
-  log('--------------------JsonSerializer(AppState.fromJson)-------------------->${AppState.fromJson.toString()}');
 
   final persistor = Persistor<AppState>(
     storage: FileStorage(await _localFile),
@@ -25,11 +22,8 @@ Future<Store<AppState>> createStore() async {
   try {
     initialState = await persistor.load();
   } catch (e) {
-    log('--------------------catch (e)-------------------->$e');
     initialState = null;
   }
-
-  log('--------------------initialState-------------------->$initialState');
 
   return Store(
     appReducer,

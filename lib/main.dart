@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:redux_counter/redux/store/app_state.dart';
+import 'package:redux_counter/redux/states/app_state.dart';
 import 'package:redux_counter/screens/counter_screen.dart';
 
 import 'redux/store/store.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux_counter/redux/store/app_state.dart';
+import 'package:redux_counter/redux/states/app_state.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
@@ -32,7 +32,7 @@ class TestScreen extends StatelessWidget {
             const SizedBox(height: 20),
             StoreConnector<AppState, String>(
               converter: (store) {
-                return store.state.counterState.counterModal.lastAction.name;
+                return store.state.counterState.counterModal.lastAction;
               },
               builder: (BuildContext context, lastAction) {
                 return Text(
